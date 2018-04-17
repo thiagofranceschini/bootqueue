@@ -1,9 +1,11 @@
 package br.com.bootq.domain.enums;
 
-public enum InspectionSet {
+public enum Status {
 	
 	WAITING,
 	EXECUTING,
 	COMPLETED;
+	
+	
 	
 }

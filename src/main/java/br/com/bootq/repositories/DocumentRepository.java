@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.bootq.domain.Documento;
+import br.com.bootq.domain.Document;
 
 @Repository
-public interface DocumentoRepository extends JpaRepository<Documento , Integer> {
+public interface DocumentRepository extends JpaRepository<Document , Integer> {
 
-	List<Documento> findAllByOrderByDateAsc();
+	List<Document> findAllByOrderByDateAsc();
 	
 }
