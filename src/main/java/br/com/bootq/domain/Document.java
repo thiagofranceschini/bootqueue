@@ -1,7 +1,8 @@
 package br.com.bootq.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,9 +27,9 @@ public class Document implements Serializable {
 	private String ufOrigin;
 	private String ufResearch;
 	
-	private Date date;
-	private Date dateStartProcess;
-	private Date dateEndProcess;
+	private LocalDateTime date;
+	private LocalDateTime dateStartProcess;
+	private LocalDateTime dateEndProcess;
 	private String idRobot;
 	private String taskStatus;
 	private String researchStatus;
@@ -64,7 +65,7 @@ public class Document implements Serializable {
 		this.taskStatus="WAITING";
 	}
 	
-	
+	//third constructor whit all datas
 	public Document(String cnpjMaster, DocumentType docType, String docNumber, String nameInDoc, String researchWeb, Integer priority, String dtNasc, String ufOrigin, String ufResearch) {
 		this.cnpjMaster=cnpjMaster;
 		this.docType=docType.name();
@@ -78,6 +79,40 @@ public class Document implements Serializable {
 		this.taskStatus="WAITING";
 	}
 	
+	
+
+	public String getDocType() {
+		return docType;
+	}
+
+	public void setDocType(String docType) {
+		this.docType = docType;
+	}
+
+	public String getTaskStatus() {
+		return taskStatus;
+	}
+
+	public void setTaskStatus(String string) {
+		this.taskStatus = string;
+	}
+
+	public Integer getJobId() {
+		return jobId;
+	}
+
+	public void setJobId(Integer jobId) {
+		this.jobId = jobId;
+	}
+
+	public String getCnpjMaster() {
+		return cnpjMaster;
+	}
+
+	public void setCnpjMaster(String cnpjMaster) {
+		this.cnpjMaster = cnpjMaster;
+	}
+
 	public String getDocValue() {
 		return docValue;
 	}
@@ -100,30 +135,6 @@ public class Document implements Serializable {
 
 	public void setResearchWeb(String researchWeb) {
 		this.researchWeb = researchWeb;
-	}
-
-	public String getCnpjMaster() {
-		return cnpjMaster;
-	}
-
-	public void setCnpjMaster(String cnpjMaster) {
-		this.cnpjMaster = cnpjMaster;
-	}
-
-	public String getDocType() {
-		return docType;
-	}
-
-	public void setDocType(String docType) {
-		this.docType = docType;
-	}
-
-	public String getDocNumber() {
-		return docValue;
-	}
-
-	public void setDocNumber(String docNumber) {
-		this.docValue = docNumber;
 	}
 
 	public String getDtNasc() {
@@ -150,19 +161,27 @@ public class Document implements Serializable {
 		this.ufResearch = ufResearch;
 	}
 
-	public Date getDateStartProcess() {
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+
+	public LocalDateTime getDateStartProcess() {
 		return dateStartProcess;
 	}
 
-	public void setDateStartProcess(Date dateStartProcess) {
-		this.dateStartProcess = dateStartProcess;
+	public void setDateStartProcess(LocalDateTime now) {
+		this.dateStartProcess = now;
 	}
 
-	public Date getDateEndProcess() {
+	public LocalDateTime getDateEndProcess() {
 		return dateEndProcess;
 	}
 
-	public void setDateEndProcess(Date dateEndProcess) {
+	public void setDateEndProcess(LocalDateTime dateEndProcess) {
 		this.dateEndProcess = dateEndProcess;
 	}
 
@@ -172,14 +191,6 @@ public class Document implements Serializable {
 
 	public void setIdRobot(String idRobot) {
 		this.idRobot = idRobot;
-	}
-
-	public String getTaskStatus() {
-		return taskStatus;
-	}
-
-	public void setTaskStatus(String taskStatus) {
-		this.taskStatus = taskStatus;
 	}
 
 	public String getResearchStatus() {
@@ -214,95 +225,6 @@ public class Document implements Serializable {
 		this.priority = priority;
 	}
 
-	public String getComarca() {
-		return docValue;
-	}
-
-	public void setComarca(String comarca) {
-		this.docValue = comarca;
-	}
-
-	public String getSource() {
-		return nameInDoc;
-	}
-
-	public void setSource(String source) {
-		this.nameInDoc = source;
-	}
-
-	
-	public String getDocumentType() {
-		return docType;
-	}
-
-	public void setDocumentType(String documentType) {
-		this.docType = documentType;
-	}
-
-	public String getCodeDocument() {
-		return cnpjMaster;
-	}
-
-	public void setCodeDocument(String codeDocument) {
-		this.cnpjMaster = codeDocument;
-	}
-
-	public String getResultStatus() {
-		return ufResearch;
-	}
-
-	public void setResultStatus(String resultStatus) {
-		this.ufResearch = resultStatus;
-	}
-
-	public String getCode() {
-		return cnpjMaster;
-	}
-
-	public void setCode(String code) {
-		this.cnpjMaster = code;
-	}
-
-	public String getStatus() {
-		return ufOrigin;
-	}
-
-	public void setStatus(String status) {
-		this.ufOrigin = status;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date sdf) {
-		this.date = sdf;
-	}
-
-	public Integer getId() {
-		return jobId;
-	}
-
-	public void setId(Integer id) {
-		this.jobId = id;
-	}
-
-	public String getName() {
-		return docType;
-	}
-
-	public void setName(String name) {
-		this.docType = name;
-	}
-
-	public String getCodigo() {
-		return cnpjMaster;
-	}
-
-	public void setCodigo(String codigo) {
-		this.cnpjMaster = codigo;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -328,10 +250,6 @@ public class Document implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Documento [id=" + jobId + ", name=" + docType + ", codigo=" + cnpjMaster + ", status=" + ufOrigin
-				+ "]";
-	}
+	
 	
 }
