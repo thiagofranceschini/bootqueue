@@ -4,7 +4,8 @@ public enum Status {
 	
 	WAITING,
 	EXECUTING,
-	COMPLETED;
+	COMPLETED,
+	TIMEERROR;
 	
 	
 	

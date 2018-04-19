@@ -23,6 +23,13 @@ public class DocumentService {
 		LocalDateTime toDay = LocalDateTime.now();
 		obj.setDate(toDay);
 		obj.setTaskStatus(Status.WAITING.name());
+		obj.setIdRobot(null);
+		obj.setDateStartProcess(null);
+		obj.setResearchStatus(null);
+		obj.setDateEndProcess(null);
+		obj.setResultMessage(null);
+		obj.setLinkAtachment(null);
+		
 		return documentRepository.save(obj);
 	}
 	
@@ -55,14 +62,23 @@ public class DocumentService {
 		return older;
 	}
 	
-	public Document update(Document obj) {
-		find(obj.getJobId());
-		return documentRepository.save(obj);
+	public Document updateExecuted(Document document) {
+		
+		Document documentU = findById(document.getJobId());
+		if(documentU.getTaskStatus()!="EXECUTING") {
+			throw new ObjectNotFoundException("Documento não pode ser atualizado pois não está em execução!");
+		}
+		documentU.setResearchStatus(document.getResearchStatus());
+		documentU.setResultMessage(document.getResultMessage());
+		documentU.setLinkAtachment(document.getLinkAtachment());
+		documentU.setTaskStatus(Status.COMPLETED.name());
+		documentRepository.save(documentU);
+		return documentU;
 	}
 	
-	public Document updateOlder(String agente) {
+	public Document updateOlder(Document idRobot) {
 		Document obj=findOlder();
-		obj.setIdRobot(agente);
+		obj.setIdRobot(idRobot.getIdRobot());
 		obj.setTaskStatus(Status.EXECUTING.name());
 		LocalDateTime now= LocalDateTime.now();
 		obj.setDateStartProcess(now);
@@ -84,5 +100,5 @@ public class DocumentService {
 	public List<Document> findByTaskWaiting(String string) {
 		return documentRepository.findByTaskStatusOrderByDate(string);
 	}
-
+	
 }

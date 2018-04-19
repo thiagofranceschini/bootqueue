@@ -3,7 +3,6 @@ package br.com.bootq.domain;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,6 +41,14 @@ public class Document implements Serializable {
 	public Document() {
 		super();
 	}
+	
+	
+
+	public Document(String idRobot) {
+		this.idRobot = idRobot;
+	}
+
+
 
 	//first constructor with minimum s3 data
 	public Document(String cnpjMaster, DocumentType docType, String docNumber, String nameInDoc, String researchWeb) {
@@ -79,8 +86,6 @@ public class Document implements Serializable {
 		this.taskStatus="WAITING";
 	}
 	
-	
-
 	public String getDocType() {
 		return docType;
 	}
