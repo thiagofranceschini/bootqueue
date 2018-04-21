@@ -10,9 +10,7 @@ import br.com.bootq.domain.Document;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document , Integer> {
 
-	//List<Document> findByTaskStatusOrderByDateAsc(String status);
-	
-	//List<Document> findAllBy 
-	
 	List<Document> findByTaskStatusOrderByDate(String taskstatus);
+	
+	
 }

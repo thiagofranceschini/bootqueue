@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import br.com.bootq.domain.enums.DocumentType;
-
 @Entity
 public class Document implements Serializable {
 	
@@ -37,11 +35,9 @@ public class Document implements Serializable {
 	private Integer priority;
 	
 	
-	
 	public Document() {
 		super();
 	}
-	
 	
 
 	public Document(String idRobot) {
@@ -49,11 +45,9 @@ public class Document implements Serializable {
 	}
 
 
-
-	//first constructor with minimum s3 data
-	public Document(String cnpjMaster, DocumentType docType, String docNumber, String nameInDoc, String researchWeb) {
+	public Document(String cnpjMaster, String string, String docNumber, String nameInDoc, String researchWeb) {
 		this.cnpjMaster=cnpjMaster;
-		this.docType=docType.name();
+		this.docType=string;
 		this.docValue=docNumber;
 		this.nameInDoc=nameInDoc;
 		this.researchWeb=researchWeb;
@@ -61,10 +55,10 @@ public class Document implements Serializable {
 		this.priority=10;
 	}
 	
-	//second constructor with differentiated priority
-	public Document(String cnpjMaster, DocumentType docType, String docNumber, String nameInDoc, String researchWeb, Integer priority) {
+	
+	public Document(String cnpjMaster, String string, String docNumber, String nameInDoc, String researchWeb, Integer priority) {
 		this.cnpjMaster=cnpjMaster;
-		this.docType=docType.name();
+		this.docType=string;
 		this.docValue=docNumber;
 		this.nameInDoc=nameInDoc;
 		this.researchWeb=researchWeb;
@@ -72,10 +66,10 @@ public class Document implements Serializable {
 		this.taskStatus="WAITING";
 	}
 	
-	//third constructor whit all datas
-	public Document(String cnpjMaster, DocumentType docType, String docNumber, String nameInDoc, String researchWeb, Integer priority, String dtNasc, String ufOrigin, String ufResearch) {
+
+	public Document(String cnpjMaster, String string, String docNumber, String nameInDoc, String researchWeb, Integer priority, String dtNasc, String ufOrigin, String ufResearch) {
 		this.cnpjMaster=cnpjMaster;
-		this.docType=docType.name();
+		this.docType=string;
 		this.docValue=docNumber;
 		this.nameInDoc=nameInDoc;
 		this.researchWeb=researchWeb;
@@ -85,6 +79,7 @@ public class Document implements Serializable {
 		this.ufResearch=ufResearch;
 		this.taskStatus="WAITING";
 	}
+	
 	
 	public String getDocType() {
 		return docType;

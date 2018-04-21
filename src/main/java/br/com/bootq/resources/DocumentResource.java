@@ -2,6 +2,8 @@ package br.com.bootq.resources;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.bootq.DTO.DocumentDTO;
+import br.com.bootq.DTO.IdRobotDTO;
+import br.com.bootq.DTO.ReturnDTO;
 import br.com.bootq.domain.Document;
 import br.com.bootq.services.DocumentService;
-import br.com.bootq.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping("rest/documents")
@@ -20,68 +24,40 @@ public class DocumentResource {
 	@Autowired
 	private DocumentService documentService;
 	
-	//get para trazer todos os objetos
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?>findById(@PathVariable Integer id){
+		Document obj=documentService.findById(id);
+		return ResponseEntity.ok(obj);
+	}
+	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public ResponseEntity<?>findAll(){
 		List <Document> list= documentService.findAll();
 		return ResponseEntity.ok(list);
 	}
 	
-	//get element por id
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?>findById(@PathVariable Integer id){
-		Document obj=documentService.findById(id);
-		return ResponseEntity.ok(obj);
-	}
-
-	//get element by taskStatus=WAITING
 	@RequestMapping(value="/list/{task}", method=RequestMethod.GET )
 	public ResponseEntity<?>findByTaskWaiting(@PathVariable String task){
 		List<Document> docList = documentService.findByTaskWaiting(task);
 		return ResponseEntity.ok(docList);
 	}
 	
-	//post para inserir elementos no banco
 	@RequestMapping(value="insert",method=RequestMethod.POST)
-	public ResponseEntity<Document> insert(@RequestBody Document document){
-		if((document.getCnpjMaster()==null)||(document.getDocType()==null)||(document.getDocValue()==null)||(document.getNameInDoc()==null)||(document.getResearchWeb()==null)) {
-			throw new ObjectNotFoundException("Informe: cnpjMaster, docType, docValue, nameInDoc, researchWeb");
-		}
+	public ResponseEntity<Document> insert(@Valid @RequestBody DocumentDTO documentDTO){
+		Document document = documentService.fromDTOInsert(documentDTO);
 		Document insert = documentService.insert(document);
 		return ResponseEntity.ok(insert);
 	}
 	
-	//Get para retirar o elemento mais antigo do banco
 	@RequestMapping(value="/take", method=RequestMethod.POST)
-	public ResponseEntity<?>updateOlder(@RequestBody Document idRobot){
-		if (idRobot.getIdRobot()==null) throw new ObjectNotFoundException("O ID do agente não pode ser nulo. Informe no corpo da requisição: 'idRobot' ");
-		Document older= documentService.updateOlder(idRobot);
-		return ResponseEntity.ok(older);
+	public ResponseEntity<?>updateOlder(@Valid @RequestBody IdRobotDTO idRobotDTO){
+		Document updateOlder = documentService.updateOlder(idRobotDTO);
+		return ResponseEntity.ok(updateOlder);
 	}
-	
-	//get para retirar o elemento mais novo do banco
-	@RequestMapping(value="/take/new", method=RequestMethod.GET)
-	public ResponseEntity<?>findNewest(){
-		Document newest= documentService.findNewest();
-		return ResponseEntity.ok(newest);
-	}
-	
-	//put para atualizar o elemento
 	
 	@RequestMapping(value="/updatestatus",method=RequestMethod.PUT)
-	public ResponseEntity<Document> updateCompleted(@RequestBody Document document){
-		if((document.getResearchStatus()==null)||(document.getResultMessage()==null)||(document.getJobId()==null)) {
-			throw new ObjectNotFoundException("Informe os parâmetros no corpo da requisição. 'jobId','resultMessage','researchStatus'");
-		}
-		Document documentUpdate = documentService.updateExecuted(document);
-		return ResponseEntity.ok(documentUpdate);
+	public ResponseEntity<Document> updateCompleted(@Valid@RequestBody ReturnDTO returnDTO){
+		Document documentUpdated = documentService.updateExecuted(returnDTO);
+		return ResponseEntity.ok(documentUpdated);
 	}
-	
-	@RequestMapping(value="/return", method=RequestMethod.PUT)
-	public ResponseEntity<?>resultReturn(@RequestBody Document obj){
-		Document document = documentService.findById(obj.getJobId());
-		Document returnDocument = documentService.returnDocument(document, obj);
-		return ResponseEntity.ok(returnDocument);
-	}
-	
 }
